@@ -1,12 +1,11 @@
-export default function Home() {
+import { connectDB } from "@/src/lib/db";
+export default async function Home() {
+   await connectDB();
   return (
     <main className="p-8">
       <h1 className="text-3xl font-bold">
-        E-Commerce Admin Dashboard
+       Database connected successfully
       </h1>
-      <p className="mt-4 text-gray-600">
-        Server-side rendered admin panel using Next.js
-      </p>
     </main>
   );
 }
