@@ -1,5 +1,5 @@
 import { connectDB } from "@/src/lib/db";
-import Product from "@/src/models/Product"
+import {Product} from "@/src/models/Product"
 export default async function DashboardPage(){
 await connectDB();
 

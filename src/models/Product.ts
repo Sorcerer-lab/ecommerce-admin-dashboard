@@ -33,6 +33,5 @@ const ProductSchema=new Schema(
   {timestamps:true}
 );
 
-// Prevent model overwrite in dev
 export const Product =
   models.Product || mongoose.model("Product", ProductSchema);
