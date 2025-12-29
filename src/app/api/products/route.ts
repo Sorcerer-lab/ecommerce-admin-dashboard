@@ -1,0 +1,14 @@
+import {NextResponse} from "next/server";
+import {connectDB} from "@/src/lib/mongodb"
+import {Product} from "@/src/models/Product"
+export async function GET(){
+    await connectDB();
+    const products=await Product.find().sort({createdAt:-1});
+    return NextResponse.json(products);
+}
+export async function POST(req:Request){
+    await connectDB();
+    const body=await req.json();
+    const product=await Product.create(body);
+    return NextResponse.json(product,{status:201});
+}
