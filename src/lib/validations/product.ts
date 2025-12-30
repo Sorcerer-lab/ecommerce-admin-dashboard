@@ -5,6 +5,6 @@ export const productSchema=z.object({
     price:z.number().min(0),
     stock:z.number().min(0),
     category:z.string().min(1),
-    imageUrl:z.string().url(),
+    imageUrl:z.string().optional(),
 });
 export type ProductInput=z.infer<typeof productSchema>;

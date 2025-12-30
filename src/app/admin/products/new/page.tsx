@@ -13,9 +13,9 @@ export default function NewProductPage(){
             price:"",
             stock:"",
             category:"",
-            imageurl:"",
         }
     );
+    const[imageFile,setImageFile]=useState<File|null>(null);
     const nextStep=()=>setStep((s)=>s+1);
     const prevStep=()=>setStep((s)=>s-1);
     const handleChange=(
@@ -35,12 +35,28 @@ export default function NewProductPage(){
             alert(result.error.issues[0].message);
             return;
         }
-        await fetch("/api/products",{
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify(formData),
-        });
-        router.push("admin/products");
+        let imageUrl = "";
+    if (imageFile) {
+    const formDataImage = new FormData();
+    formDataImage.append("file",imageFile);
+
+    const uploadRes=await fetch("/api/upload",{
+    method:"POST",
+    body:formDataImage,
+  });
+    const uploadData = await uploadRes.json();
+    imageUrl = uploadData.url;
+}
+
+    const payload={...formData,imageUrl};
+
+    await fetch("/api/products",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(payload),
+});
+           
+        router.push("/admin/products");
     };
     return (
         <div className="p-8 max-w-xl mx-auto">
@@ -98,11 +114,12 @@ export default function NewProductPage(){
                 onChange={handleChange}
                 />
                 <input
-                name="imageurl"
-                placeholder="Image URL"
+                type="file"
+                accept="image/*"
+                name="image"
+                placeholder="Image"
                 className="border p-2 w-full mb-3"
-                value={formData.imageurl}
-                onChange={handleChange}
+                onChange={(e)=>setImageFile(e.target.files?.[0]||null)}
                 />
                 <div className="flex justify-between">
                     <button onClick={prevStep}>Back</button>
