@@ -1,5 +1,7 @@
+export const dynamic = "force-dynamic";
 import DashboardCard from "@/src/components/DashboardCard";
 import ProductCharts from "@/src/components/ProductCharts";
+
 async function getProducts(){
     const baseUrl=process.env.NEXT_PUBLIC_BASE_URL||"http://localhost:3000";
     const res=await fetch(`${baseUrl}/api/products`,{
