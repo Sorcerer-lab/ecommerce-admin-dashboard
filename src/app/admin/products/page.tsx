@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import {Product} from "@/src/models/Product"
 import {connectDB} from "@/src/lib/mongodb"
 export default async function ProductsPage(){
