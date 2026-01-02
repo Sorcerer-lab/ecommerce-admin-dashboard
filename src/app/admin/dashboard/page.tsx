@@ -1,6 +1,10 @@
 export const dynamic = "force-dynamic";
 import DashboardCard from "@/src/components/DashboardCard";
-import ProductCharts from "@/src/components/ProductCharts";
+import dynamicImport from "next/dynamic";
+const ProductCharts=dynamicImport(
+    ()=>import("@/src/components/ProductCharts"),
+    {ssr:false}
+);
 
 async function getProducts(){
     const baseUrl=process.env.NEXT_PUBLIC_BASE_URL||"http://localhost:3000";
