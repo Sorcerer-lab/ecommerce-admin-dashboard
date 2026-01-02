@@ -6,7 +6,7 @@ import DashboardChartsClient from "@/src/components/DashboardCard"
 
 async function getProducts(){
     const baseUrl=process.env.NEXT_PUBLIC_BASE_URL||"http://localhost:3000";
-    const res=await fetch("/api/products",{
+    const res=await fetch(`${baseUrl}/api/products`,{
         cache:"no-store",
     });
     return res.json();
