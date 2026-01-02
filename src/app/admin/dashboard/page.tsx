@@ -2,15 +2,20 @@
 export const dynamic = "force-dynamic";
 import DashboardCard from "@/src/components/DashboardCard";
 import DashboardChartsClient from "@/src/components/DashboardCard"
-
+import {headers} from "next/headers";
 
 async function getProducts(){
-    const baseUrl=process.env.NEXT_PUBLIC_BASE_URL||"http://localhost:3000";
-    const res=await fetch(`${baseUrl}/api/products`,{
+    const headersList=headers();
+    const host =(await headersList).get("host");
+       const res=await fetch(`https://${host}/api/products`,{
         cache:"no-store",
     });
+    if(!res.ok){
+    throw new Error("Failed to fetch products");
+}
     return res.json();
 }
+
 export default async function DashboardPage(){
     const products=await getProducts();
     return(
