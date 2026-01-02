@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { connectDB } from "@/src/lib/db";
 import {Product} from "@/src/models/Product"
 export default async function DashboardPage(){

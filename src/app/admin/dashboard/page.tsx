@@ -1,7 +1,8 @@
 import DashboardCard from "@/src/components/DashboardCard";
 import ProductCharts from "@/src/components/ProductCharts";
 async function getProducts(){
-    const res=await fetch("http:/localhost:3000/api/products",{
+    const baseUrl=process.env.NEXT_PUBLIC_BASE_URL||"http://localhost:3000";
+    const res=await fetch(`${baseUrl}/api/products`,{
         cache:"no-store",
     });
     return res.json();
