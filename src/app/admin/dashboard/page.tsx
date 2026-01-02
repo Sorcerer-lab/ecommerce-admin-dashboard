@@ -1,10 +1,8 @@
+
 export const dynamic = "force-dynamic";
 import DashboardCard from "@/src/components/DashboardCard";
-import dynamicImport from "next/dynamic";
-const ProductCharts=dynamicImport(
-    ()=>import("@/src/components/ProductCharts"),
-    {ssr:false}
-);
+import DashboardChartsClient from "@/src/components/DashboardCard"
+
 
 async function getProducts(){
     const baseUrl=process.env.NEXT_PUBLIC_BASE_URL||"http://localhost:3000";
@@ -19,7 +17,7 @@ export default async function DashboardPage(){
         <div className="p-6 space-y-6">
             <h1 className="text-2xl font-bold">Admin Dashboard</h1>
             <DashboardCard products={products}/>
-            <ProductCharts products={products}/>``
+            <DashboardChartsClient products={products}/>``
         </div>
     )
 }
