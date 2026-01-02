@@ -1,7 +1,7 @@
 
 export const dynamic = "force-dynamic";
 import DashboardCard from "@/src/components/DashboardCard";
-import DashboardChartsClient from "@/src/components/DashboardCard"
+import DashboardChartsClient from "@/src/components/DashboardChartsClient"
 import {headers} from "next/headers";
 
 async function getProducts(){
