@@ -1,28 +1,35 @@
-
 export const dynamic = "force-dynamic";
-import DashboardCard from "@/src/components/DashboardCard";
-import DashboardChartsClient from "@/src/components/DashboardChartsClient"
-import {headers} from "next/headers";
-
-async function getProducts(){
-    const headersList=headers();
-    const host =(await headersList).get("host");
-       const res=await fetch(`https://${host}/api/products`,{
-        cache:"no-store",
-    });
-    if(!res.ok){
-    throw new Error("Failed to fetch products");
-}
-    return res.json();
-}
-
+import { connectDB } from "@/src/lib/db";
+import {Product} from "@/src/models/Product"
 export default async function DashboardPage(){
-    const products=await getProducts();
-    return(
-        <div className="p-6 space-y-6">
-            <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-            <DashboardCard products={products}/>
-            <DashboardChartsClient products={products}/>``
-        </div>
-    )
+await connectDB();
+
+const products =await Product.find().lean();
+
+return (
+    <main className= "p-8">
+        <h1 className="text-2xl font-bold mb-6">
+        Admin Dashboard
+        </h1>
+
+        {products.length===0 ?(
+            <p className="text-gray-600">
+            No products found.
+            </p>
+        ):(
+            <ul className="space-y-2">
+                {products.map((product)=>(
+                    <li
+                    key={product._id}
+                    className="border p-4 rounded"
+                    >
+                        <p><strong>Name:</strong>{product.name}</p>
+                        <p><strong>Price:</strong>Rs.{product.price}</p>
+                        <p><strong>Stock:</strong>{product.stock}</p>
+                    </li>
+                ))}
+            </ul>
+        )}
+    </main>
+);
 }
