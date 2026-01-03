@@ -29,35 +29,49 @@ export default function NewProductPage(){
 ,
         }));
     };
-    const handleSubmit=async()=>{
-        const result=productSchema.safeParse(formData);
-        if(!result.success){
-            alert(result.error.issues[0].message);
-            return;
-        }
-        let imageUrl = "";
-    if (imageFile) {
-    const formDataImage = new FormData();
-    formDataImage.append("file",imageFile);
+    const [loading, setLoading] = useState(false);
 
-    const uploadRes=await fetch("/api/upload",{
-    method:"POST",
-    body:formDataImage,
-  });
-    const uploadData = await uploadRes.json();
-    imageUrl = uploadData.url;
-}
+const handleSubmit=async () => {
+  if(loading) return; 
+  setLoading(true);
 
-    const payload={...formData,imageUrl};
+  const result=productSchema.safeParse(formData);
+  if (!result.success) {
+    alert(result.error.issues[0].message);
+    setLoading(false);
+    return;
+  }
 
+  try{
+    let imageUrl="";
+
+    if (imageFile){
+      const formDataImage=new FormData();
+      formDataImage.append("file",imageFile);
+
+      const uploadRes=await fetch("/api/upload", {
+        method:"POST",
+        body:formDataImage,
+      });
+
+      const uploadData=await uploadRes.json();
+      imageUrl=uploadData.url;
+    }
+
+    const payload={ ...formData, imageUrl };
     await fetch("/api/products",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(payload),
-});
-           
-        router.push("/admin/products");
-    };
+      method:"POST",
+      headers:{ "Content-Type":"application/json"},
+      body:JSON.stringify(payload),
+    });
+
+    router.push("/admin/products");
+  } catch (err){
+    alert("Something went wrong");
+    setLoading(false);
+  }
+};
+
     return (
         <div className="p-8 max-w-xl mx-auto">
             <h1 className="text-2xl font-bold mb-6">Add Product</h1>
@@ -123,8 +137,12 @@ export default function NewProductPage(){
                 />
                 <div className="flex justify-between">
                     <button onClick={prevStep}>Back</button>
-                    <button onClick={handleSubmit} className="btn-primary">
-                    Create Product</button>
+                    <button 
+                    disabled={loading}
+                    className={`btn btn-primary ${loading ? "opacity-50 cursor-not-allowed" : ""}`}>
+                    {loading ? "Creating..." : "Add Product"}
+                   </button>
+
                 </div>
                 </>
             )}
