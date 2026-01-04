@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
+import {useRouter} from "next/navigation";
 
 const links=[
     {name:"Products",href:"/admin/dashboard"},
@@ -9,6 +10,11 @@ const links=[
 ]
 export default function AdminSidebar(){
     const pathname=usePathname();
+    const router=useRouter();
+    async function handleLogout() {
+    await fetch("/api/logout", { method: "POST" });
+    router.push("/");
+  }
     return (
         <aside className="w-64 bg-white min-h-screen p-6">
             <h2 className="text-xl font-bold mb-6">Admin Panel</h2>
@@ -23,6 +29,12 @@ export default function AdminSidebar(){
                 </Link>
             ))}
             </nav>
+             <button
+        onClick={handleLogout}
+        className="w-full bg-red-600 hover:bg-red-700 p-2 rounded"
+      >
+        Logout
+      </button>
         </aside>
     );
 }
