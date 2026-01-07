@@ -84,7 +84,7 @@ const handleSubmit=async () => {
 
     return (
         <div className="p-8 max-w-xl mx-auto">
-            <h1 className="text-2xl font-bold mb-6">Add Product</h1>
+            <h1 className="text-2xl font-bold mb-6">{initialData?"Edit Product":"Add Product"}</h1>
             {step===1&&(
                 <>
                 <input
