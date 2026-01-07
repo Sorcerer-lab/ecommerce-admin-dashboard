@@ -24,7 +24,7 @@ export default function LoginPage(){
         router.push("/admin/dashboard");
     }
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-700">
     <div className="bg-black p-8 rounded shadow w-96 space-y-4">
     <h1 className="text-2xl font-bold text-center">Admin Login</h1>
 

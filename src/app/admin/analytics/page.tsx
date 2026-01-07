@@ -7,7 +7,8 @@ import {headers} from "next/headers";
 async function getProducts(){
     const headersList=headers();
     const host =(await headersList).get("host");
-       const res=await fetch(`https://${host}/api/products`,{
+    const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+       const res=await fetch(`${protocol}://${host}/api/products`,{
         cache:"no-store",
     });
     if(!res.ok){
