@@ -49,7 +49,8 @@ const handleSubmit=async () => {
   }
 
   try{
-    let imageUrl="";
+   let imageUrl = initialData?.imageUrl || "";
+
 
     if (imageFile){
       const formDataImage=new FormData();
@@ -81,6 +82,7 @@ const handleSubmit=async () => {
     setLoading(false);
   }
 };
+    const isEditMode=Boolean(initialData);
 
     return (
         <div className="p-8 max-w-xl mx-auto">
@@ -137,14 +139,26 @@ const handleSubmit=async () => {
                 value={formData.category}
                 onChange={handleChange}
                 />
-                <input
-                type="file"
-                accept="image/*"
-                name="image"
-                placeholder="Image"
-                className="border p-2 w-full mb-3"
-                onChange={(e)=>setImageFile(e.target.files?.[0]||null)}
+                {initialData?.imageUrl && !imageFile && (
+               <div className="mb-3">
+               <p className="text-sm text-gray-600 mb-1">Current Image</p>
+               <img
+               src={initialData.imageUrl}
+               alt="Product"
+               className="h-28 w-28 object-cover rounded border"
+               />
+              </div>
+)}
+
+               <input
+             type="file"
+             accept="image/*"
+             name="image"
+             className="border p-2 w-full mb-3"
+             onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+             required={!isEditMode}
                 />
+
                 <div className="flex justify-between">
                     <button onClick={prevStep}>Back</button>
                     <button
