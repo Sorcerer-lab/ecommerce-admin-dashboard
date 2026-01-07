@@ -13,8 +13,8 @@ export default function NewProductPage({initialData}:ProductFormProps){
     const[formData,setFormData]=useState(
         {
             name: initialData?.name ?? "",
-            price: initialData?.price ?? 0,
-            stock: initialData?.stock ?? 0,
+            price: initialData?.price ??"",
+            stock: initialData?.stock ??"",
             imageUrl: initialData?.imageUrl ?? "",
             description:initialData?.description??"",
             category:initialData?.category??"",
